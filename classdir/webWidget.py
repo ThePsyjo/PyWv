@@ -7,7 +7,7 @@
 # of the			#
 # GNU General Public License v2	#
 #################################
-from PyQt4.QtGui import QDockWidget, QKeyEvent
+from PyQt4.QtGui import QDockWidget, QKeyEvent, QLabel, QProgressBar
 from PyQt4.QtWebKit import QWebView
 from PyQt4.QtCore import SIGNAL, SLOT, pyqtSlot, QUrl
 from . import config
@@ -20,12 +20,20 @@ class WebWidget(QDockWidget):
 		self.webView = QWebView(self)
 		self.url = QUrl()
 
+		self.progressBar = QProgressBar(self)
+
 		self.connect(self.webView, SIGNAL('loadFinished(bool)'), self.webViewDone)
+		self.connect(self.webView, SIGNAL('loadProgress(int)'), self, SLOT('onWebViewStatusChange(int)'))
 
 		self.setWidget(self.webView)
-	
+
 	def webViewDone(self):
+		self.setTitleBarWidget(None)
 		self.emit(SIGNAL('done()'))
+
+	@pyqtSlot(int)
+	def onWebViewStatusChange(self, val):
+		self.progressBar.setValue(val)
 
 	def keyPressEvent(self, e):
 		if e.text() == '+' or e.text() == '-' or e.text() == '0':
@@ -37,5 +45,8 @@ class WebWidget(QDockWidget):
 
 	def load(self, url):
 		self.url.setUrl(url)
-#		print self.url.toString()
 		self.webView.load(self.url)
+
+	def reload_(self):
+		self.setTitleBarWidget(self.progressBar)
+		self.webView.reload()

@@ -141,12 +141,14 @@ class LinkInput(QDialog):
 		else:
 			u = QUrl()
 			u.setUrl(self.urlEdit.text())
+			if not u.scheme():
+				u.setScheme('http')
 			u.setUserName(self.name.text())
 			u.setPassword(self.passwd.text())
 
                         self.config.saveLink(self.nameSelect.currentText(), { 'type' : self.typeSelect.currentText(), 'data' : u.toString()})
 
-			self.links = self.config.loadLinks()
+			#self.links = self.config.loadLinks()
 			self.savButton.setFont(QFont())
 
 			self.modified.append(unicode(self.nameSelect.currentText()))

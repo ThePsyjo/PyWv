@@ -33,14 +33,13 @@ class ConfigHandler(QObject):
 		except Exception as e:
 			if os.path.exists(filepath):
 				QMessageBox.warning(None, 'Configfile Error', 'Error while parsing the config File. Message is\n\n"%s"' % e)
-#				print 'nerv'
 				self.doSave = False
 			else:
-				self.saveFile()
 				QMessageBox.information(None, 'Config created', 'Configuration file "%s" was created' % filepath)
-#				print 'erstellt "%s"' % filepath
+			self.cfg={}
 
 		self.create(['General'])
+		self.create(['Links'])
 #		self.addLink('google', {'type':'generic', 'data':'http://www.google.de'})
 #		self.addLink('osk', {'type':'generic', 'data':'http://osaftkonzentrat.funpic.de'})
 #		self.addLink('ngz', {'type':'generic', 'data':'http://www.ngz-server.de'})
@@ -53,9 +52,7 @@ class ConfigHandler(QObject):
 		for section in l:
 			try:
 				itm = itm[section]
-				#print 's: habe', section
 			except Exception as e:
-				#print 's: lege an', section
 				itm[section] = {}
 				itm = itm[section]
 
@@ -64,9 +61,7 @@ class ConfigHandler(QObject):
 		for section in l:
 			try:
 				itm = itm[section]
-				#print 'l: habe', section
 			except:
-				#print 'nicht da', section
 				return default
 		return itm
 
@@ -151,7 +146,8 @@ class ConfigHandler(QObject):
 	def saveLink(self, name, link):
 		name = unicode(name)
 		Links = self.loadLinks()
-		if name not in Links:	return False
+		if name not in Links:
+			self.addLink(name, link)
 		else:
 			Links[name] = link
 			self.saveLinks(Links)

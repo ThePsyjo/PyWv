@@ -17,5 +17,3 @@ class GenericWidget(WebWidget):
 		self.config = cfg
 		self.load(self.config.loadLinks()[str(self.objectName())]['data'])
 		self.webView.setZoomFactor(self.config.loadZoomFactor(self.objectName()))
-	def reload_(self):
-		self.webView.reload()
