@@ -49,4 +49,5 @@ class WebWidget(QDockWidget):
 
 	def reload_(self):
 		self.setTitleBarWidget(self.progressBar)
-		self.webView.reload()
+		#self.webView.reload()
+		self.webView.load(self.url)
