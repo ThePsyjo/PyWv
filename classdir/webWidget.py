@@ -19,6 +19,7 @@ class WebWidget(QDockWidget):
 		
 		self.webView = QWebView(self)
 		self.url = QUrl()
+		self.lastUrl = QUrl()
 
 		self.progressBar = QProgressBar(self)
 
@@ -26,6 +27,7 @@ class WebWidget(QDockWidget):
 		self.connect(self.webView, SIGNAL('loadProgress(int)'), self, SLOT('onWebViewStatusChange(int)'))
 
 		self.setWidget(self.webView)
+
 
 
 	def webViewDone(self):
@@ -46,5 +48,9 @@ class WebWidget(QDockWidget):
 
 	def reload_(self):
 		self.setTitleBarWidget(self.progressBar)
-		self.webView.load(self.url)
+		if self.url.toString() == self.lastUrl.toString():
+			self.webView.reload()
+		else:
+			self.webView.load(self.url)
+		self.lastUrl.setUrl(self.url.toString())
 		self.webView.setZoomFactor(self.config.loadZoomFactor(self.objectName()))

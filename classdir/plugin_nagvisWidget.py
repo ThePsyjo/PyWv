@@ -27,4 +27,4 @@ class NagvisWidget(WebWidget):
 	def resizeEvent(self, event):
 		self.url.setUrl('%s&width=%d&height=%d' % (self.realUrl.toString(),
 								self.width()/self.webView.zoomFactor()-20,
-								self.height()/self.webView.zoomFactor()-60))
+								self.height()/self.webView.zoomFactor()-65))
