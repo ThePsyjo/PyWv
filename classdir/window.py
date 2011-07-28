@@ -16,9 +16,10 @@ from .linkInput import LinkInput
 import os, time
 from threading import Event
 from pluginHelper import classdirPlugins
+from . import res
 plugins = classdirPlugins().all_()
 for p in plugins:
-	print('registering %s from %s' % (p['class'], p['file']))
+#	print('registering %s from %s' % (p['class'], p['file']))
 	exec('from %s import %s' % (p['file'], p['class']))
 
 class MainWindow(QMainWindow):
@@ -93,13 +94,13 @@ class MainWindow(QMainWindow):
 		self.mOption.addSeparator()
 		self.mOption.addMenu(self.mStyle)
 
-		self.trayIcon = QSystemTrayIcon(QIcon('../res/appicon.png'), self);
+		self.trayIcon = QSystemTrayIcon(QIcon(':/appicon'), self);
 		self.trayMgr = TrayManager(self.config, self.trayIcon)
 		self.connect(self.trayIcon, SIGNAL('activated(QSystemTrayIcon::ActivationReason)'), self.onTrayIcon)
 		if self.config.loadShowTray(): self.trayIcon.show()
 
 		self.trayIconMenu = QMenu()
-		self.trayIconMenu.addAction(self.tr("exit"), self.onExit)
+		self.trayIconMenu.addAction(self.tr("e&xit"), self.onExit)
 		self.trayIcon.setContextMenu(self.trayIconMenu)
 
 		self.mAbout = self.menuBar().addMenu(self.tr("&about"))
@@ -133,8 +134,7 @@ class MainWindow(QMainWindow):
 					continue
 
 			exec('self.widgets[name] = %s(name, self.config, self)' % pluginClass)
-		#	exec('self.widgets[name] = %s(name, self.config, self)' % pluginClass) in locals()
-			print(('loaded plugin', self.widgets[name]))
+		#	print(('loaded plugin', self.widgets[name]))
 
 		self.addDockWidget(0x4, self.widgets[name])
 
@@ -232,7 +232,7 @@ class MainWindow(QMainWindow):
 	def onOntopAction(self, b):
 		if b:	self.setWindowFlags(Qt.Dialog | Qt.WindowStaysOnTopHint)
 		else:	self.setWindowFlags(Qt.Dialog)
-		self.setWindowIcon(QIcon('../res/appicon.png'))
+		self.setWindowIcon(QIcon(':/appicon'))
 		self.show();
 		self.config.saveOntop(b)
 
@@ -256,6 +256,6 @@ class MainWindow(QMainWindow):
 				self.config.saveIsVisible(True)
 
 	def onAboutAppAction(self):
-		QMessageBox.about(self, self.tr("about"), self.tr("name %1 version %2").arg(QApplication.applicationName()).arg(QApplication.applicationVersion()))
+		QMessageBox.about(self, self.tr("&about"), self.tr("name %1 version %2").arg(QApplication.applicationName()).arg(QApplication.applicationVersion()))
 	def onAboutQtAction(self):
-		QMessageBox.aboutQt(self, self.tr("about"))
+		QMessageBox.aboutQt(self, self.tr("&about"))
