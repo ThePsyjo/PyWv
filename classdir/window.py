@@ -111,9 +111,10 @@ class MainWindow(QMainWindow):
 
 		self.resize(self.config.loadWindowSize())
 		self.restoreState(self.config.loadWindowState())
-		self.reload_()
+
 		if self.config.loadIsVisible():
 			self.show()
+			self.reload_()
 
 	def __del__(self):
 		self.config.saveWindowState(self.saveState())
@@ -137,6 +138,7 @@ class MainWindow(QMainWindow):
 		#	print(('loaded plugin', self.widgets[name]))
 
 		self.addDockWidget(0x4, self.widgets[name])
+		self.widgets[name].reload_()
 
 	def delWidget(self, name):
 		#print 'del', name, type(name), '\n', self.widgets

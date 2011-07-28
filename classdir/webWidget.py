@@ -27,6 +27,7 @@ class WebWidget(QDockWidget):
 
 		self.setWidget(self.webView)
 
+
 	def webViewDone(self):
 		self.setTitleBarWidget(None)
 		self.emit(SIGNAL('done()'))
@@ -43,11 +44,7 @@ class WebWidget(QDockWidget):
 
 			self.config.saveZoomFactor(self.objectName(), self.webView.zoomFactor())
 
-	def load(self, url):
-		self.url.setUrl(url)
-		self.webView.load(self.url)
-
 	def reload_(self):
 		self.setTitleBarWidget(self.progressBar)
-		#self.webView.reload()
 		self.webView.load(self.url)
+		self.webView.setZoomFactor(self.config.loadZoomFactor(self.objectName()))

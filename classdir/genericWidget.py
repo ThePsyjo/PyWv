@@ -15,5 +15,4 @@ class GenericWidget(WebWidget):
 		WebWidget.__init__(self, name, parent)
 
 		self.config = cfg
-		self.load(self.config.loadLinks()[str(self.objectName())]['data'])
-		self.webView.setZoomFactor(self.config.loadZoomFactor(self.objectName()))
+		self.url.setUrl(self.config.loadLinks()[str(self.objectName())]['data'])
