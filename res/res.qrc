@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+	<qresource>
+		<file alias="appicon">appicon.png</file>
+		<file alias="German.qm">../classdir/German.qm</file>
+		<file alias="C.qm">../classdir/C.qm</file>
+	</qresource>
+</RCC>
