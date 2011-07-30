@@ -9,7 +9,7 @@
 #################################
 from PyQt4.QtCore import QRegExp, Qt, SIGNAL, SLOT, QUrl
 from PyQt4.QtGui import QWidget, QDialog, QRegExpValidator, QLineEdit, QPushButton, QGridLayout, QComboBox, QLabel, QFont, QMessageBox
-from pluginHelper import classdirPlugins
+from .pluginHelper import classdirPlugins
 
 
 class StringInput(QDialog):
@@ -148,12 +148,12 @@ class LinkInput(QDialog):
 			u.setUserName(self.name.text())
 			u.setPassword(self.passwd.text())
 
-                        self.config.saveLink(self.nameSelect.currentText(), { 'type' : self.typeSelect.currentText(), 'data' : u.toString()})
+			self.config.saveLink(self.nameSelect.currentText(), { 'type' : self.typeSelect.currentText(), 'data' : u.toString()})
 
 			#self.links = self.config.loadLinks()
 			self.savButton.setFont(QFont())
 
-			self.modified.append(unicode(self.nameSelect.currentText()))
+			self.modified.append(str(self.nameSelect.currentText()))
 
 
 	def onNewClick(self):
@@ -181,7 +181,7 @@ class LinkInput(QDialog):
 
 	def onNameSelectChange(self):
 		try:
-			l = self.links[unicode(self.nameSelect.currentText())]
+			l = self.links[str(self.nameSelect.currentText())]
 			u = QUrl(l['data'])
 
 			self.name.setText(u.userName())

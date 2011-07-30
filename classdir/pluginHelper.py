@@ -16,10 +16,9 @@ class classdirPlugins():
 
 		for plugin in glob('classdir/plugin_*.py'):
 			file_ = path.basename(plugin.replace('.py', ''))
-			exec('from %s import PLUGIN_NAME, PLUGIN_CLASS' % file_)
-			self.__plugins.append({ 'name': PLUGIN_NAME, 'class': PLUGIN_CLASS, 'file': file_ })
-			del PLUGIN_NAME
-			del PLUGIN_CLASS
+			plug = __import__('classdir.%s' % file_, fromlist=['PLUGIN_NAME', 'PLUGIN_CLASS'])
+			self.__plugins.append({ 'name': plug.PLUGIN_NAME, 'class': plug.PLUGIN_CLASS, 'file': file_ })
+			del plug
 			del file_
 
 	def names(self):

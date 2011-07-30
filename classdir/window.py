@@ -15,12 +15,12 @@ from .trayManager import TrayManager
 from .linkInput import LinkInput
 import os, time
 from threading import Event
-from pluginHelper import classdirPlugins
+from .pluginHelper import classdirPlugins
 from . import res
 plugins = classdirPlugins().all_()
 for p in plugins:
 #	print('registering %s from %s' % (p['class'], p['file']))
-	exec('from %s import %s' % (p['file'], p['class']))
+	exec('from .%s import %s' % (p['file'], p['class']))
 
 class MainWindow(QMainWindow):
 	def __init__(self):

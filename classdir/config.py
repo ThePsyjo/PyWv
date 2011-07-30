@@ -8,13 +8,14 @@
 # GNU General Public License v2	#
 #################################
 from PyQt4.QtGui import QMessageBox
-from PyQt4.QtCore import QUrl, QObject, QSize, QString
+from PyQt4.QtCore import QUrl, QObject, QSize
 import os
 import json
 from zlib import compress, decompress
 from binascii import hexlify, unhexlify
 from copy import deepcopy
 from shutil import copy as cp
+from sys import version_info
 
 class ConfigHandler(QObject):
 	def __init__(self, filepath, parent = None):
@@ -63,16 +64,20 @@ class ConfigHandler(QObject):
 		if self.doSave:
 			toRenew = []
 			for s in self.cfg['Links']:
-				if type(s) is type(QString()):
-					toRenew.append(s)
+				if version_info < (3,0):
+					if type(s) is not type(unicode()) and type(s) is not type(str()):
+						toRenew.append(s)
+				else:
+					if type(s) is not type(str()):
+						toRenew.append(s)
 
 			for s in toRenew:
-				self.cfg['Links'][unicode(s)] = self.cfg['Links'][s]
+				self.cfg['Links'][str(s)] = self.cfg['Links'][s]
 				del self.cfg['Links'][s]
 
 			for s in self.cfg['Links']:
-				if type(self.cfg['Links'][s]['type']) is type(QString()):
-					self.cfg['Links'][s]['type'] = unicode(self.cfg['Links'][s]['type'])
+				if type(self.cfg['Links'][s]['type']) is not type(str):
+					self.cfg['Links'][s]['type'] = str(self.cfg['Links'][s]['type'])
 
 			with open(self.filepath, 'wb') as configfile:
 				json.dump(self.cfg, configfile, indent=3)
@@ -115,22 +120,22 @@ class ConfigHandler(QObject):
 	def loadLinks(self):
 		try:	Links = deepcopy(self.cfg['Links'])
 		except:	return {}
-		for name in Links: Links[name]['data'] = decompress(unhexlify(Links[name]['data']))
+		for name in Links: Links[name]['data'] = str(decompress(unhexlify(Links[name]['data'])))
 		return Links
 	def saveLinks(self, links):
-		for name in links: links[name]['data'] = hexlify(compress(unicode(links[name]['data']), 9))
+		for name in links: links[name]['data'] = hexlify(compress(str(links[name]['data']), 9))
 		self.cfg['Links'] = links
 		self.saveFile()
 	def addLink(self, name, link):
 		Links = self.loadLinks()
-		name = unicode(name)
+		name = str(name)
 		if name in Links: return False
 		else:
 			Links[name] = link
 			self.saveLinks(Links)
 			return True
 	def saveLink(self, name, link):
-		name = unicode(name)
+		name = str(name)
 		Links = self.loadLinks()
 		if name not in Links:
 			self.addLink(name, link)
@@ -140,7 +145,7 @@ class ConfigHandler(QObject):
 			return True
 	def delLink(self, name):
 		Links = self.loadLinks()
-		name = unicode(name)
+		name = str(name)
 		if name in Links:
 			del Links[name]
 			self.saveLinks(Links)
@@ -148,7 +153,7 @@ class ConfigHandler(QObject):
 		else: return False
 
 	def loadZoomFactor(self, name):
-		return self.getVal(['Links', unicode(name), 'zf'], 1)
+		return self.getVal(['Links', str(name), 'zf'], 1)
 	def saveZoomFactor(self, name, zf):
 		Links = self.loadLinks()
 		name = str(name)
