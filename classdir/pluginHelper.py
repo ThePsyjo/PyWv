@@ -8,13 +8,14 @@
 # GNU General Public License v2	#
 #################################
 from glob import glob
+from os import path
 
 class classdirPlugins():
 	def __init__(self):
 		self.__plugins = []
 
 		for plugin in glob('classdir/plugin_*.py'):
-			file_ = plugin.replace('.py', '').replace('classdir/', '')
+			file_ = path.basename(plugin.replace('.py', ''))
 			exec('from %s import PLUGIN_NAME, PLUGIN_CLASS' % file_)
 			self.__plugins.append({ 'name': PLUGIN_NAME, 'class': PLUGIN_CLASS, 'file': file_ })
 			del PLUGIN_NAME
