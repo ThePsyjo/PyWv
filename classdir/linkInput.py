@@ -131,6 +131,8 @@ class LinkInput(QDialog):
 
 		self.setMinimumWidth(500)
 
+		self.nameSelect.setCurrentIndex(self.nameSelect.count()-1)
+
 	def onChange(self):
 		self.savButton.setFont(QFont(self.defFont.defaultFamily(), -1, QFont.Bold))
 

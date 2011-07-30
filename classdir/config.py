@@ -40,12 +40,6 @@ class ConfigHandler(QObject):
 
 		self.create(['General'])
 		self.create(['Links'])
-#		self.addLink('google', {'type':'generic', 'data':'http://www.google.de'})
-#		self.addLink('osk', {'type':'generic', 'data':'http://osaftkonzentrat.funpic.de'})
-#		self.addLink('ngz', {'type':'generic', 'data':'http://www.ngz-server.de'})
-#		self.addLink('tp', {'type':'generic', 'data':'http://www.teamplay.de'})
-#		self.addLink('sc', {'type':'generic', 'data':'http://www.servercamp.de'})
-#		self.addLink('uc', {'type':'generic', 'data':'http://www.unitedcolo.de'})
 
 	def create(self, l):
 		itm = self.cfg
@@ -66,33 +60,25 @@ class ConfigHandler(QObject):
 		return itm
 
 	def saveFile(self):
+		if self.doSave:
+			toRenew = []
+			for s in self.cfg['Links']:
+				if type(s) is type(QString()):
+					toRenew.append(s)
 
-#		print ('%s save %s' % ('-'*30, '-'*30))
+			for s in toRenew:
+				self.cfg['Links'][unicode(s)] = self.cfg['Links'][s]
+				del self.cfg['Links'][s]
 
-		toRenew = []
-		for s in self.cfg['Links']:
-			if type(s) is type(QString()):
-				toRenew.append(s)
+			for s in self.cfg['Links']:
+				if type(self.cfg['Links'][s]['type']) is type(QString()):
+					self.cfg['Links'][s]['type'] = unicode(self.cfg['Links'][s]['type'])
 
-		for s in toRenew:
-			self.cfg['Links'][unicode(s)] = self.cfg['Links'][s]
-			del self.cfg['Links'][s]
-
-		for s in self.cfg['Links']:
-			if type(self.cfg['Links'][s]['type']) is type(QString()):
-				self.cfg['Links'][s]['type'] = unicode(self.cfg['Links'][s]['type'])
-
-#		for s in self.cfg['Links']:
-#			print s, self.cfg['Links'][s]
-
-#		print self.cfg
-
-		with open(self.filepath, 'wb') as configfile:
-			json.dump(self.cfg, configfile, indent=3)
+			with open(self.filepath, 'wb') as configfile:
+				json.dump(self.cfg, configfile, indent=3)
 
 	def __del__(self):
-		if self.doSave:
-			self.saveFile()
+		self.saveFile()
 
 	def loadStyleSheet(self):
 		return self.getVal(['General','Style'], '')
