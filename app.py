@@ -26,7 +26,7 @@ if not translator.load(':/%s' % QLocale.languageToString(QLocale.system().langua
 app.installTranslator(translator)
 app.setWindowIcon(QIcon(':/appicon'))
 app.setApplicationName('PyWebViewer')
-app.setApplicationVersion('1.0.1')
+app.setApplicationVersion('1.0.2')
 app.setQuitOnLastWindowClosed(False)
 
 from classdir.window import MainWindow
