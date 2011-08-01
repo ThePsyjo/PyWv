@@ -1,5 +1,5 @@
 #################################
-# plugin_nagvisWidget.py	#
+# plugin_Min1024bWidget.py	#
 #				#
 # Copyright 2011 ThePsyjo	#
 #				#
