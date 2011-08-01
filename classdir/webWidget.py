@@ -47,6 +47,7 @@ class WebWidget(QDockWidget):
 			self.config.saveZoomFactor(self.objectName(), self.webView.zoomFactor())
 
 	def reload_(self):
+		if not self.isVisible(): return
 		self.setTitleBarWidget(self.progressBar)
 		if self.url.toString() == self.lastUrl.toString():
 			self.webView.reload()

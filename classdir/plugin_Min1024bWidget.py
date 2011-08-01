@@ -9,13 +9,12 @@
 #################################
 from .config import ConfigHandler
 from .webWidget import WebWidget
-from PyQt4.QtCore import QUrl, SIGNAL
-from time import sleep
+from PyQt4.QtCore import QUrl, SIGNAL, QTimer
 
-PLUGIN_CLASS = 'Min1024b'
+PLUGIN_CLASS = 'Min1024bWidget'
 PLUGIN_NAME = 'Reload on less than 1024 received bytes'
 
-class Min1024b(WebWidget):
+class Min1024bWidget(WebWidget):
 	def __init__(self, name, cfg, parent = None):
 		WebWidget.__init__(self, name, parent)
 
@@ -23,9 +22,10 @@ class Min1024b(WebWidget):
 
 		self.url.setUrl(self.config.loadLinks()[str(self.objectName())]['data'])
 
-		self.connect(self, SIGNAL('done()'), self.check)
+		self.timer = QTimer(self)
+		self.connect(self.timer , SIGNAL('timeout()') , self.reload_)
+		self.connect(self       , SIGNAL('done()')    , self.check)
 
 	def check(self):
 		if self.webView.page().totalBytes() < 1024:
-			sleep(2)
-			self.reload_()
+			self.timer.start(2000)
