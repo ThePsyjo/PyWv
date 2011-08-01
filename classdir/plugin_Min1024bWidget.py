@@ -23,9 +23,11 @@ class Min1024bWidget(WebWidget):
 		self.url.setUrl(self.config.loadLinks()[str(self.objectName())]['data'])
 
 		self.timer = QTimer(self)
+		self.timer.setInterval(2000)
+		self.timer.setSingleShot(1)
 		self.connect(self.timer , SIGNAL('timeout()') , self.reload_)
 		self.connect(self       , SIGNAL('done()')    , self.check)
 
 	def check(self):
 		if self.webView.page().totalBytes() < 1024:
-			self.timer.start(2000)
+			self.timer.start()
