@@ -41,6 +41,8 @@ class ConfigHandler(QObject):
 
 		self.create(['General'])
 		self.create(['Links'])
+		self.create(['Plugin'])
+		self.saveDelayWidgetBusy(False)
 
 	def create(self, l):
 		itm = self.cfg
@@ -185,5 +187,11 @@ class ConfigHandler(QObject):
 		return self.getVal(['General', 'CloseToTray'], True)
 	def saveCloseToTray(self, closeToTray):
 		self.cfg['General']['CloseToTray'] = closeToTray
+		self.saveFile()
+
+	def loadDelayWidgetBusy(self):
+		return self.getVal(['Plugin', 'DelayWidgetBusy'], False)
+	def saveDelayWidgetBusy(self, b):
+		self.cfg['Plugin']['DelayWidgetBusy'] = b
 		self.saveFile()
 
