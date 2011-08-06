@@ -45,18 +45,23 @@ class MainWindow(QMainWindow):
 		self.pBar = QProgressBar(self)
 		self.pBar.setRange(0, self.config.loadReloadInterval())
 		self.pBar.setFormat("%v Sekunden")
+		if not self.config.loadAutoload():
+			self.pBar.hide()
 
 		self.statusBar = QStatusBar(self)
 		self.setStatusBar(self.statusBar)
 		self.statusBar.addWidget(self.pBar)
 
 		self.reloadTimer = QTimer(self);
-		self.reloadTimer.start(self.config.loadReloadInterval() * 1000)
+		self.reloadTimer.setInterval(self.config.loadReloadInterval() * 1000)
 		self.connect(self.reloadTimer, SIGNAL('timeout()'), self.reload_)
+		if self.config.loadAutoload():
+			self.reloadTimer.start()
 
-		self.statTimer = QTimer(self)
-		self.statTimer.start(1000) # 1 sec
-		self.connect(self.statTimer, SIGNAL('timeout()'), self.stat)
+		self.autoloadStatusTimer = QTimer(self)
+		self.autoloadStatusTimer.setInterval(1000) # 1 sec
+		self.connect(self.autoloadStatusTimer, SIGNAL('timeout()'), self.onAutoloadStatus)
+		self.autoloadStatusTimer.start()
 
 		self.mAction = self.menuBar().addMenu(self.tr("&Action"))
 		self.mAction.addAction(self.tr("&update"), self.reload_, QKeySequence('F5'))
@@ -72,25 +77,30 @@ class MainWindow(QMainWindow):
 		self.mOption.addAction(self.tr("manage links")   , self.onNewLink    , 'F6')
 		self.mOption.addSeparator()
 
-		self.ontopAction       = QAction(self.tr("always on &top"),  self)
-		self.showTrayAction    = QAction(self.tr("show tray &icon"), self)
-		self.closeToTrayAction = QAction(self.tr("close to &tray"),  self)
+		self.ontopAction       = QAction(self.tr("always on &top")  , self)
+		self.showTrayAction    = QAction(self.tr("show tray &icon") , self)
+		self.closeToTrayAction = QAction(self.tr("close to &tray")  , self)
+		self.autoloadAction    = QAction(self.tr("auto&load")       , self)
 
 		self.ontopAction.setCheckable(True)
 		self.showTrayAction.setCheckable(True)
 		self.closeToTrayAction.setCheckable(True)
+		self.autoloadAction.setCheckable(True)
 
 		self.showTrayAction.setChecked   (self.config.loadShowTray()   )
 		self.ontopAction.setChecked      (self.config.loadOntop()      )
 		self.closeToTrayAction.setChecked(self.config.loadCloseToTray())
+		self.autoloadAction.setChecked   (self.config.loadAutoload()   )
 
 		self.connect(self.ontopAction       , SIGNAL('toggled(bool)') , self.onOntopAction)
 		self.connect(self.showTrayAction    , SIGNAL('toggled(bool)') , self.onShowTrayAction)
 		self.connect(self.closeToTrayAction , SIGNAL('toggled(bool)') , self.onCloseToTrayAction)
+		self.connect(self.autoloadAction    , SIGNAL('toggled(bool)') , self.onAutoloadAction)
 
 		self.mOption.addAction(self.ontopAction)
 		self.mOption.addAction(self.showTrayAction)
 		self.mOption.addAction(self.closeToTrayAction)
+		self.mOption.addAction(self.autoloadAction)
 		self.mOption.addSeparator()
 		self.mOption.addMenu(self.mStyle)
 
@@ -185,7 +195,7 @@ class MainWindow(QMainWindow):
 		self.reloadTimer.start(self.config.loadReloadInterval()*1000)
 
 	@pyqtSlot()
-	def stat(self):
+	def onAutoloadStatus(self):
 		self.pBar.setValue(self.pBar.value()-1)
 #		print([idx for idx in self.widgets])
 
@@ -208,6 +218,16 @@ class MainWindow(QMainWindow):
 			self.config.saveReloadInterval(value)
 			self.pBar.setRange(0,self.config.loadReloadInterval())
 			self.reload_()
+
+	def onAutoloadAction(self, b):
+		if b:
+			self.reloadTimer.start()
+			self.pBar.show()
+			self.reload_()
+		else:
+			self.reloadTimer.stop()
+			self.pBar.hide()
+		self.config.saveAutoload(b)
 
 	def onNewLink(self):
 		inp = LinkInput(self.config, self)

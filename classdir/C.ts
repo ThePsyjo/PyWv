@@ -54,17 +54,17 @@
         <translation>Don&amp;e</translation>
     </message>
     <message>
-        <location filename="classdir/linkInput.py" line="139"/>
+        <location filename="classdir/linkInput.py" line="141"/>
         <source>insert URL here</source>
         <translation>insert URL here</translation>
     </message>
     <message>
-        <location filename="classdir/linkInput.py" line="167"/>
+        <location filename="classdir/linkInput.py" line="169"/>
         <source>del_link</source>
         <translation>delete link</translation>
     </message>
     <message>
-        <location filename="classdir/linkInput.py" line="167"/>
+        <location filename="classdir/linkInput.py" line="169"/>
         <source>ask_del_link %1 ?</source>
         <translation>Delete link &quot;%1&quot; ?</translation>
     </message>
@@ -72,69 +72,74 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="classdir/window.py" line="60"/>
+        <location filename="classdir/window.py" line="66"/>
         <source>&amp;Action</source>
         <translation>&amp;Actions</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="61"/>
+        <location filename="classdir/window.py" line="67"/>
         <source>&amp;update</source>
         <translation>&amp;Update</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="102"/>
+        <location filename="classdir/window.py" line="113"/>
         <source>e&amp;xit</source>
         <translation>&amp;Quit</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="64"/>
+        <location filename="classdir/window.py" line="70"/>
         <source>&amp;Style</source>
         <translation>&amp;Style</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="69"/>
+        <location filename="classdir/window.py" line="75"/>
         <source>&amp;Options</source>
         <translation>&amp;Options</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="197"/>
+        <location filename="classdir/window.py" line="209"/>
         <source>reloadinterval</source>
         <translation>reload interval</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="71"/>
+        <location filename="classdir/window.py" line="77"/>
         <source>manage links</source>
         <translation>manage links</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="74"/>
+        <location filename="classdir/window.py" line="80"/>
         <source>always on &amp;top</source>
         <translation>Always on&amp;top</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="75"/>
+        <location filename="classdir/window.py" line="81"/>
         <source>show tray &amp;icon</source>
         <translation>Show tray &amp;icon</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="76"/>
+        <location filename="classdir/window.py" line="82"/>
         <source>close to &amp;tray</source>
         <translation>Close to system&amp;tray</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="261"/>
+        <location filename="classdir/window.py" line="283"/>
         <source>&amp;about</source>
         <translation>A&amp;bout</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="197"/>
+        <location filename="classdir/window.py" line="209"/>
         <source>insert time in s</source>
         <translation>Insert time in seconds</translation>
     </message>
     <message>
-        <location filename="classdir/window.py" line="259"/>
+        <location filename="classdir/window.py" line="281"/>
         <source>name %1 version %2</source>
         <translation>&lt;html&gt;%1 %2&lt;br&gt;&lt;br&gt;Copyright (C) 2011 Psyjo&lt;br&gt;&lt;br&gt;&lt;a href=&quot;http://github.com/ThePsyjo/PyWv&quot;&gt;Projectsite&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.&lt;br&gt;&lt;br&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;br&gt;See the GNU General Public License for more details.&lt;br&gt;&lt;br&gt;You should have received a copy of the GNU General Public License along with this program; if not, see &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;this link&lt;/a&gt;.&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="classdir/window.py" line="83"/>
+        <source>auto&amp;load</source>
+        <translation>automatic re&amp;load</translation>
     </message>
 </context>
 <context>
